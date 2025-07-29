@@ -35,29 +35,15 @@ Aplicación móvil desarrollada en **.NET MAUI Blazor Hybrid** para gestión y v
 - [Bootstrap 5](https://getbootstrap.com/)
 - [Bootstrap Icons](https://icons.getbootstrap.com/)
 
-## 🛠️ Cómo correr el proyecto
 
-1. Clonar el repositorio:
-    ```bash
-    git clone https://github.com/tu-usuario/MauiAppPeliculas.git
-    ```
-2. Abrir la solución `.sln` en **Visual Studio 2022+**.
-3. Ejecutar el proyecto en **modo Windows** o en emulador Android.
-
-> **Nota:** Las imágenes deben estar en la carpeta `wwwroot/Imagenes` del proyecto.
-
-## 📸 Capturas de pantalla
-
-<!-- Podés agregar imágenes de tu app corriendo aquí -->
-<img src="wwwroot/Imagenes/captura1.png" width="300" /> 
-<img src="wwwroot/Imagenes/captura2.png" width="300" />
 
 ## 📚 Créditos / Autor
 
-- **Autor:** [Tu nombre aquí]
-- **Materia:** [Nombre de la materia o curso]
-- **Mail:** [Tu email de contacto]
-- **Profesor:** [Nombre del docente]
+- **Autor:** Ignacio Agustín Rodríguez Damín
+- **Materia:** Programación III - Aplicaciones Móviles 2025
+- **Mail:** nachovista@gmail.com
+- **Profesor:** Federico Trani
+- Instituto Tecnologico de Educacion Superior - ITES -
 
 ---
 
