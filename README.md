@@ -20,6 +20,12 @@ Aplicación móvil desarrollada en **.NET MAUI Blazor Hybrid** para gestión y v
 | Admin   |      ✔️       |               ✔️                  |      ✔️      |              ✔️                 |
 | Usuario |      ✔️       |               ❌                  |      ✔️      |              ❌                 |
 
+
+Id = 1, Nombre = "Administrador", Email = "admin@peliculas.com", Rol = "admin", Contraseña = "admin123"
+Id = 2, Nombre = "Usuario", Email = "usuario@peliculas.com", Rol = "usuario", Contraseña = "usuario123" 
+
+
+
 ## 🖥️ Pantallas principales
 
 - **Login y Registro**
