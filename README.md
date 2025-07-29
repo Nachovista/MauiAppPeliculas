@@ -50,7 +50,7 @@ Id = 2, Nombre = "Usuario", Email = "usuario@peliculas.com", Rol = "usuario", Co
 - **Materia:** Programación III - Aplicaciones Móviles 2025
 - **Mail:** nachovista@gmail.com
 - **Profesor:** Federico Trani
-- Instituto Tecnologico de Educacion Superior - ITES -
+- **Instituto Tecnologico de Educacion Superior - ITES -**
 
 ---
 
