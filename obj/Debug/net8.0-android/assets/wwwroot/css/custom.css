@@ -1,0 +1,7 @@
+﻿.card.movie-card .card-img-top {
+    transition: transform 0.4s cubic-bezier(.23,1.25,.32,1);
+}
+
+.card.movie-card:hover .card-img-top {
+    transform: scale(1.07);
+}

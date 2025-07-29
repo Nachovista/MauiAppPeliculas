@@ -1,0 +1,272 @@
+﻿@page "/usuario"
+@inject MauiAppPeliculas.Services.UsuarioService UsuarioService
+@inject NavigationManager Navigation
+
+@using MauiAppPeliculas.Models
+@using Microsoft.AspNetCore.Components.Forms
+
+<div style="position: absolute; top: 70px; right: 32px; z-index: 100;">
+    <button class="btn btn-light shadow-sm rounded-pill d-flex align-items-center gap-2 mb-4"
+            style="font-size:1.15rem; padding: 0.45rem 1.2rem;"
+            @onclick="@(() => Navigation.NavigateTo("/home"))">
+        <i class="bi bi-house-door" style="font-size:1.5rem;"></i>
+        <img src="Imagenes/house-door-fill.svg" width="20" />
+        <span class="d-none d-md-inline">Inicio</span>
+    </button>
+
+
+</div>
+
+@code {
+    // --- Estados y datos ---
+    bool mostrarFormulario = false;
+    bool editarModo = false;
+    Usuario usuarioSeleccionado = new Usuario();
+    string? imagenPreview;
+
+    // Modal eliminar
+    bool mostrarModalEliminar = false;
+    int idAEliminar = 0;
+
+    // --- Ciclo de vida ---
+    protected override void OnInitialized()
+    {
+        if (UsuarioService.UsuarioLogueado == null)
+        {
+            Navigation.NavigateTo("/login");
+        }
+    }
+
+    // --- Métodos CRUD ---
+    void MostrarFormularioAdd()
+    {
+        usuarioSeleccionado = new Usuario();
+        imagenPreview = null;
+        editarModo = false;
+        mostrarFormulario = true;
+    }
+
+    void EditarUsuario(Usuario usuario)
+    {
+        usuarioSeleccionado = new Usuario
+        {
+            Id = usuario.Id,
+            Nombre = usuario.Nombre,
+            Email = usuario.Email,
+            Imagen = usuario.Imagen,
+            Rol = usuario.Rol,
+            Contraseña = usuario.Contraseña
+        };
+        imagenPreview = usuario.Imagen?.StartsWith("data:image") == true ? usuario.Imagen : null;
+        editarModo = true;
+        mostrarFormulario = true;
+    }
+
+    void GuardarUsuario()
+    {
+        // Si no es admin, siempre crear como usuario común
+        if (UsuarioService.UsuarioLogueado?.Rol != "admin")
+        {
+            usuarioSeleccionado.Rol = "usuario";
+        }
+
+        if (!editarModo)
+        {
+            // Nueva imagen subida
+            UsuarioService.Add(usuarioSeleccionado);
+        }
+        else
+        {
+            UsuarioService.Update(usuarioSeleccionado);
+        }
+        mostrarFormulario = false;
+        StateHasChanged();
+    }
+
+    // --- Modal eliminar ---
+    void ConfirmarEliminarUsuario(int id)
+    {
+        idAEliminar = id;
+        mostrarModalEliminar = true;
+    }
+    void EliminarConfirmado()
+    {
+        UsuarioService.Delete(idAEliminar);
+        mostrarModalEliminar = false;
+        StateHasChanged();
+    }
+    void CancelarEliminar()
+    {
+        mostrarModalEliminar = false;
+    }
+
+    // --- Input file ---
+    async Task SeleccionarImagen(InputFileChangeEventArgs e)
+    {
+        var archivo = e.File;
+        if (archivo != null)
+        {
+            using var stream = archivo.OpenReadStream(2 * 1024 * 1024); // 2MB máx
+            var buffer = new byte[archivo.Size];
+            await stream.ReadAsync(buffer, 0, (int)archivo.Size);
+
+            var extension = System.IO.Path.GetExtension(archivo.Name).Replace(".", "");
+            imagenPreview = $"data:image/{extension};base64,{Convert.ToBase64String(buffer)}";
+            usuarioSeleccionado.Imagen = imagenPreview;
+        }
+    }
+
+    void CerrarFormulario()
+    {
+        mostrarFormulario = false;
+    }
+}
+
+<!-- TÍTULO -->
+<h3 class="mb-4">Usuarios</h3>
+
+<!-- Botón Agregar SOLO para Admin -->
+@if (UsuarioService.UsuarioLogueado?.Rol == "admin")
+{
+    <button class="btn btn-primary mb-3" @onclick="MostrarFormularioAdd">
+        <i class="bi bi-person-plus"></i> Agregar Usuario
+        <img src="Imagenes/person-fill-add.svg" width="30" />
+    </button>
+}
+
+<!-- TABLA DE USUARIOS -->
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            @if (UsuarioService.UsuarioLogueado?.Rol == "admin")
+            {
+                <th>Acciones</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in UsuarioService.GetAll())
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(usuario.Imagen))
+                    {
+                        <img src="@(usuario.Imagen.StartsWith("data:image") ? usuario.Imagen : "/Imagenes/" + usuario.Imagen)"
+                             width="50" height="50" style="object-fit:cover; border-radius:50%;" />
+                    }
+                </td>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Email</td>
+                <td>
+                    @if (usuario.Rol == "admin")
+                    {
+                        <span class="badge bg-danger">Admin</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Usuario</span>
+                    }
+                </td>
+                @if (UsuarioService.UsuarioLogueado?.Rol == "admin")
+                {
+                    <td>
+                        <button class="btn btn-sm btn-warning me-1" @onclick="() => EditarUsuario(usuario)">
+                            <i class="bi bi-pencil-square"></i>
+                            <img src="Imagenes/pencil-square.svg" width="20" />
+                        </button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => ConfirmarEliminarUsuario(usuario.Id)"> 
+                            <i class="bi bi-trash"></i>
+                            <img src="Imagenes/trash.svg" width="20" />
+                        </button>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- MODAL AGREGAR/EDITAR USUARIO -->
+@if (mostrarFormulario)
+{
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal d-block" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-person-circle"></i>
+                        @(!editarModo ? "Registrar Usuario" : "Editar Usuario")
+                    </h5>
+                    <button type="button" class="btn-close" @onclick="CerrarFormulario"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Nombre</label>
+                        <input class="form-control" @bind="usuarioSeleccionado.Nombre" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input class="form-control" @bind="usuarioSeleccionado.Email" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Contraseña</label>
+                        <input type="password" class="form-control" @bind="usuarioSeleccionado.Contraseña" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Imagen (seleccione archivo)</label>
+                        <InputFile OnChange="SeleccionarImagen" accept="image/*" />
+                        @if (!string.IsNullOrEmpty(imagenPreview))
+                        {
+                            <div class="mt-2">
+                                <img src="@imagenPreview" style="max-width: 100%; max-height: 120px; border-radius:8px; border:1px solid #ccc;" />
+                            </div>
+                        }
+                        <small class="form-text text-muted">Puede seleccionar una imagen de usuario.</small>
+                    </div>
+                    @if (UsuarioService.UsuarioLogueado?.Rol == "admin")
+                    {
+                        <div class="mb-3">
+                            <label>Rol</label>
+                            <select class="form-select" @bind="usuarioSeleccionado.Rol">
+                                <option value="usuario">Usuario común</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CerrarFormulario">Cancelar</button>
+                    <button class="btn btn-primary" @onclick="GuardarUsuario">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- MODAL CONFIRMAR ELIMINAR -->
+@if (mostrarModalEliminar)
+{
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal d-block" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-3">
+                <div class="modal-header bg-danger text-white rounded-top-3">
+                    <h5 class="modal-title">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirmar eliminación
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar este usuario? Se eliminará <b>permanentemente</b>.</p>
+                </div>
+                <div class="modal-footer bg-light rounded-bottom-3">
+                    <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
+                    <button class="btn btn-danger" @onclick="EliminarConfirmado">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

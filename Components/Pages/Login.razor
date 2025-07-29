@@ -1,0 +1,46 @@
+﻿@page "/"
+@inject NavigationManager Navigation
+@inject MauiAppPeliculas.Services.UsuarioService UsuarioService
+
+<h3 class="text-center mb-4">Iniciar sesión</h3>
+
+<div class="card mx-auto shadow p-4" style="max-width: 400px;">
+    @if (!string.IsNullOrEmpty(errorMsg))
+    {
+        <div class="alert alert-danger">@errorMsg</div>
+    }
+    <div class="mb-3">
+        <label>Email o Nombre de Usuario</label>
+        <input class="form-control" @bind="usuarioInput" autocomplete="username" />
+    </div>
+    <div class="mb-3">
+        <label>Contraseña</label>
+        <input type="password" class="form-control" @bind="contraseñaInput" autocomplete="current-password" />
+    </div>
+    <button class="btn btn-primary w-100 mb-2" @onclick="IniciarSesion">Ingresar</button>
+    <button class="btn btn-link w-100" @onclick="IrARegistro">Registrarse como usuario</button>
+</div>
+
+@code {
+    string usuarioInput = "";
+    string contraseñaInput = "";
+    string errorMsg = "";
+
+    async Task IniciarSesion()
+    {
+        if (UsuarioService.Login(usuarioInput, contraseñaInput))
+        {
+            Navigation.NavigateTo("/home", true); // fuerza reload real
+        }
+        else
+        {
+            errorMsg = "Usuario o contraseña incorrectos.";
+        }
+    }
+
+    void IrARegistro()
+    {
+        // Redirigí a la page de usuarios (registro solo como usuario)
+        Navigation.NavigateTo("/usuarios");
+    }
+}

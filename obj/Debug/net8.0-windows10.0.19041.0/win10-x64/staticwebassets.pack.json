@@ -1,0 +1,133 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\scopedcss\\bundle\\MauiAppPeliculas.styles.css",
+      "PackagePath": "staticwebassets\\MauiAppPeliculas.styles.css"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\MenuPelicula.svg",
+      "PackagePath": "staticwebassets\\Imagenes\\MenuPelicula.svg"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\Titanic.png",
+      "PackagePath": "staticwebassets\\Imagenes\\Titanic.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\avatar.png",
+      "PackagePath": "staticwebassets\\Imagenes\\avatar.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\endgame.png",
+      "PackagePath": "staticwebassets\\Imagenes\\endgame.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\fast8.png",
+      "PackagePath": "staticwebassets\\Imagenes\\fast8.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\frozen2.png",
+      "PackagePath": "staticwebassets\\Imagenes\\frozen2.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\house-door-fill.svg",
+      "PackagePath": "staticwebassets\\Imagenes\\house-door-fill.svg"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\ironman3.png",
+      "PackagePath": "staticwebassets\\Imagenes\\ironman3.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\jurassicworld.png",
+      "PackagePath": "staticwebassets\\Imagenes\\jurassicworld.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\lionking.png",
+      "PackagePath": "staticwebassets\\Imagenes\\lionking.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\minions.png",
+      "PackagePath": "staticwebassets\\Imagenes\\minions.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\pencil-square.svg",
+      "PackagePath": "staticwebassets\\Imagenes\\pencil-square.svg"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\person-fill-add.svg",
+      "PackagePath": "staticwebassets\\Imagenes\\person-fill-add.svg"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\plus-square.svg",
+      "PackagePath": "staticwebassets\\Imagenes\\plus-square.svg"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\starwars7.png",
+      "PackagePath": "staticwebassets\\Imagenes\\starwars7.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\trash.svg",
+      "PackagePath": "staticwebassets\\Imagenes\\trash.svg"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\user1.png",
+      "PackagePath": "staticwebassets\\Imagenes\\user1.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\user2.png",
+      "PackagePath": "staticwebassets\\Imagenes\\user2.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\user3.png",
+      "PackagePath": "staticwebassets\\Imagenes\\user3.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\Imagenes\\usuarios.svg",
+      "PackagePath": "staticwebassets\\Imagenes\\usuarios.svg"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\css\\custom.css",
+      "PackagePath": "staticwebassets\\css\\custom.css"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\nacho\\source\\repos\\MauiAppPeliculas\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.MauiAppPeliculas.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.MauiAppPeliculas.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.build.MauiAppPeliculas.props",
+      "PackagePath": "build\\MauiAppPeliculas.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.buildMultiTargeting.MauiAppPeliculas.props",
+      "PackagePath": "buildMultiTargeting\\MauiAppPeliculas.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\staticwebassets\\msbuild.buildTransitive.MauiAppPeliculas.props",
+      "PackagePath": "buildTransitive\\MauiAppPeliculas.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

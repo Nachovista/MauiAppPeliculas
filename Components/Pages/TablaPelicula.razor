@@ -1,0 +1,260 @@
+﻿@page "/pelicula"
+@inject MauiAppPeliculas.Services.PeliculaService PeliculaService
+@inject MauiAppPeliculas.Services.UsuarioService UsuarioService
+@using MauiAppPeliculas.Models
+@using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager Navigation
+
+<div style="position: absolute; top: 70px; right: 32px; z-index: 100;">
+    <button class="btn btn-light shadow-sm rounded-pill d-flex align-items-center gap-2 mb-4"
+            style="font-size:1.15rem; padding: 0.45rem 1.2rem;"
+            @onclick="@(() => Navigation.NavigateTo("/home"))">
+        <i class="bi bi-house-door" style="font-size:1.5rem;"></i>
+        <img src="Imagenes/house-door-fill.svg" width="20" />
+        <span class="d-none d-md-inline">Inicio</span>
+    </button>
+
+    
+</div>
+
+
+<h3>Películas</h3>
+
+<div class="mb-3 d-flex justify-content-end">
+    <input class="form-control" style="max-width: 300px;"
+           placeholder="Buscar por título, año o género..."
+           @bind="textoBusqueda" />
+</div>
+
+@if (UsuarioService.UsuarioLogueado?.Rol == "admin")
+{
+    <button class="btn btn-primary mb-3" @onclick="MostrarFormularioAdd">
+        Agregar Película
+        <img src="Imagenes/plus-square.svg" width="25" />
+    </button>
+}
+
+
+
+
+
+<!-- Grid de tarjetas de películas -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 justify-content-center">
+    @foreach (var pelicula in PeliculasFiltradas)
+    {
+      <div class="col" style="max-width: 320px; margin-bottom: 24px;">
+    <div class="card h-100 shadow-sm movie-card">
+        @if (!string.IsNullOrEmpty(pelicula.Imagen))
+        {
+               <img src="@(pelicula.Imagen.StartsWith("data:image") ? pelicula.Imagen : "/Imagenes/" + pelicula.Imagen)"
+                         style="object-fit:cover; width:100%; height:380px; border-top-left-radius: .5rem; border-top-right-radius: .5rem;"
+                         alt="Imagen de la película"
+                         class="card-img-top"/>
+
+          
+        }
+        else
+        {
+            <div class="bg-light card-img-top d-flex align-items-center justify-content-center" style="height:380px;">
+                <span class="text-muted">Sin imagen</span>
+            </div>
+        }
+        <div class="card-body">
+            <h5 class="card-title">@pelicula.Titulo</h5>
+            <p class="card-text mb-2"><strong>Género:</strong> @pelicula.Genero</p>
+            <p class="card-text mb-2"><strong>Año:</strong> @pelicula.Año</p>
+        </div>
+
+                @if (UsuarioService.UsuarioLogueado?.Rol == "admin")
+
+                {
+                    <div class="card-footer bg-white d-flex justify-content-end gap-2 border-0">
+                        <button class="btn btn-sm btn-warning" @onclick="() => EditarPelicula(pelicula)">
+                            <i class="bi bi-pencil"></i> Editar
+                            <img src="Imagenes/pencil-square.svg" width="20" />
+
+                        </button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => ConfirmarEliminarPelicula(pelicula.Id)">
+                            <i class="bi bi-trash"></i> Eliminar
+                            <img src="Imagenes/trash.svg" width="20" />
+                        </button>
+                    </div>
+                }
+        
+    </div>
+</div>
+    }
+</div>
+
+@if (mostrarFormulario)
+{
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal d-block" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@((peliculaSeleccionada?.Id ?? 0) == 0 ? "Agregar Película" : "Editar Película")</h5>
+                    <button type="button" class="btn-close" @onclick="CerrarFormulario"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Título</label>
+                        <input class="form-control" @bind="peliculaSeleccionada.Titulo" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Género</label>
+                        <input class="form-control" @bind="peliculaSeleccionada.Genero" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Año</label>
+                        <input type="number" class="form-control" @bind="peliculaSeleccionada.Año" min="1900" max="2100"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Imagen (seleccione archivo)</label>
+                        <InputFile OnChange="SeleccionarImagen" accept="image/*" />
+                        @if (!string.IsNullOrEmpty(imagenPreview))
+                        {
+                            <div class="mt-2">
+                                <img src="@imagenPreview" style="max-width: 100%; max-height: 200px; border-radius:8px; border:1px solid #ccc;" />
+                            </div>
+                        }
+                        <small class="form-text text-muted">
+                            La imagen será utilizada solo mientras la app esté abierta.
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CerrarFormulario">Cancelar</button>
+                    <button class="btn btn-primary" @onclick="GuardarPelicula">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    bool mostrarFormulario = false;
+    Pelicula peliculaSeleccionada = new Pelicula();
+
+    void MostrarFormularioAdd()
+    {
+        peliculaSeleccionada = new Pelicula();
+        mostrarFormulario = true;
+    }
+
+    void EditarPelicula(Pelicula pelicula)
+    {
+        peliculaSeleccionada = new Pelicula
+        {
+            Id = pelicula.Id,
+            Titulo = pelicula.Titulo,
+            Genero = pelicula.Genero,
+            Año = pelicula.Año,
+            Imagen = pelicula.Imagen
+        };
+        mostrarFormulario = true;
+    }
+
+    void GuardarPelicula()
+    {
+        if (peliculaSeleccionada.Id == 0)
+        {
+            PeliculaService.Add(peliculaSeleccionada);
+        }
+        else
+        {
+            PeliculaService.Update(peliculaSeleccionada);
+        }
+        mostrarFormulario = false;
+        StateHasChanged();
+    }
+
+    void EliminarPelicula(int id)
+    {
+        PeliculaService.Delete(id);
+        StateHasChanged();
+    }
+
+    void CerrarFormulario()
+    {
+        mostrarFormulario = false;
+    }
+
+    string? imagenPreview;
+
+    async Task SeleccionarImagen(InputFileChangeEventArgs e)
+    {
+        var archivo = e.File;
+        if (archivo != null)
+        {
+            using var stream = archivo.OpenReadStream(long.MaxValue); // lee hasta 2GB (exagerado pero seguro)
+            var buffer = new byte[archivo.Size];
+            await stream.ReadAsync(buffer, 0, (int)archivo.Size);
+
+            // Codifica en base64 para mostrar el preview y guardar en la película
+            var base64 = Convert.ToBase64String(buffer);
+            var extension = System.IO.Path.GetExtension(archivo.Name).Replace(".", "");
+            imagenPreview = $"data:image/{extension};base64,{base64}";
+            if (peliculaSeleccionada == null)
+            {
+                peliculaSeleccionada = new Pelicula();
+            }
+            peliculaSeleccionada.Imagen = imagenPreview; // guarda el string base64 temporalmente
+        }
+    }
+
+    // Para Peliculas
+    bool mostrarModalEliminar = false;
+    int idAEliminar = 0;
+
+    void ConfirmarEliminarPelicula(int id)
+    {
+        idAEliminar = id;
+        mostrarModalEliminar = true;
+    }
+
+    void EliminarConfirmado()
+    {
+        PeliculaService.Delete(idAEliminar);
+        mostrarModalEliminar = false;
+        StateHasChanged();
+    }
+
+    void CancelarEliminar()
+    {
+        mostrarModalEliminar = false;
+    }
+    string textoBusqueda = "";
+
+    IEnumerable<Pelicula> PeliculasFiltradas =>
+        string.IsNullOrWhiteSpace(textoBusqueda)
+            ? PeliculaService.GetAll()
+            : PeliculaService.GetAll().Where(p =>
+                (!string.IsNullOrEmpty(p.Titulo) && p.Titulo.Contains(textoBusqueda, StringComparison.OrdinalIgnoreCase))
+                || (!string.IsNullOrEmpty(p.Genero) && p.Genero.Contains(textoBusqueda, StringComparison.OrdinalIgnoreCase))
+                || (p.Año.ToString().Contains(textoBusqueda))
+            );
+
+}
+
+@if (mostrarModalEliminar)
+{
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal d-block" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-3">
+                <div class="modal-header bg-danger text-white rounded-top-3">
+                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i> Confirmar eliminación</h5>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar este archivo? <b>Dile Adiós</b>.</p>
+                </div>
+                <div class="modal-footer bg-light rounded-bottom-3">
+                    <button class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
+                    <button class="btn btn-danger" @onclick="EliminarConfirmado">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
