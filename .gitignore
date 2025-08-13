@@ -1,0 +1,51 @@
+# --- Visual Studio ---
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# --- Build results ---
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Bb]uild/
+[Ll]ogs/
+
+# --- MAUI / Windows packaging ---
+*.appx
+*.msix
+*.msixupload
+AppPackages/
+publish/
+
+# --- NuGet packages ---
+*.nupkg
+packages/
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# --- IDE / Herramientas ---
+.idea/
+*.DotSettings.user
+
+# --- Archivos temporales ---
+Thumbs.db
+.DS_Store
+*.tmp
+*.temp
+
+# --- Backup ---
+*.bak
+*.old
+
+# --- Coverage / Tests ---
+*.coverage
+*.coveragexml
+TestResult*/
